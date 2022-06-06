@@ -33,7 +33,56 @@ type (
 		CreatedAt time.Time `json:"created_at"`
 	}
 )
+func fetchTodos(w http.ResponseWriter, r *http.Request) {
+	todos := []todoModel{}
 
+	if err := db.C(collectionName).
+		Find(bson.M{}).
+		All(&todos); err != nil {
+		rnd.JSON(w, http.StatusProcessing, renderer.M{
+			"message": "Failed to fetch todo",
+			"error":   err,
+		})
+		return
+	}
+
+	todoList := []todo{}
+	for _, t := range todos {
+		todoList = append(todoList, todo{
+			ID:        t.ID.Hex(),
+			Title:     t.Title,
+			Completed: t.Completed,
+			CreatedAt: t.CreatedAt,
+		})
+	}
+
+	rnd.JSON(w, http.StatusOK, renderer.M{
+		"data": todoList,
+	})
+}
+
+func deleteTodo(w http.ResponseWriter, r *http.Request) {
+	id := strings.TrimSpace(chi.URLParam(r, "id"))
+
+	if !bson.IsObjectIdHex(id) {
+		rnd.JSON(w, http.StatusBadRequest, renderer.M{
+			"message": "The id is invalid",
+		})
+		return
+	}
+
+	if err := db.C(collectionName).RemoveId(bson.ObjectIdHex(id)); err != nil {
+		rnd.JSON(w, http.StatusProcessing, renderer.M{
+			"message": "Failed to delete todo",
+			"error":   err,
+		})
+		return
+	}
+
+	rnd.JSON(w, http.StatusOK, renderer.M{
+		"message": "Todo deleted successfully",
+	})
+}
 func main(){
 	
 }
