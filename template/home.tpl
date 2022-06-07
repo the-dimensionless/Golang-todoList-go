@@ -23,7 +23,7 @@
       }
       .todo-title{
         width: 100%;
-        background: #b88f92;
+        background: #F4BFBF;
         color: #FFF
         ;
         font-size: 30px;
@@ -60,7 +60,7 @@
         border: 2px solid #e74c3c !important;
       }
       .not-checked{
-        background: #2227c7;
+        background: #8CC0DE;
         color: #FFF;
         font-weight: bold;
       }
@@ -69,7 +69,7 @@
   <body>
     <div class="container" id="root">
         <div class="row">
-            <div class="col-6 offset-3">
+            <div class="col-8 offset-2">
                 <br><br>
                 <div class="card">
                   <div class="todo-title">
