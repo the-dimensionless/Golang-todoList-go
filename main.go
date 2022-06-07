@@ -1,9 +1,8 @@
 package main
 
 import (
-
-	"encoding/json"
 	"context"
+	"encoding/json"
 	"log"
 	"net/http"
 	"os"
@@ -53,7 +52,7 @@ func init() {
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
-	err := rnd.Template(w, http.StatusOK, []string{"static/home.tpl"}, nil)
+	err := rnd.Template(w, http.StatusOK, []string{"template/home.tpl"}, nil)
 	checkErr(err)
 }
 
